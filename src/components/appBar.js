@@ -16,6 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Sidebar from './sidebar';
 
 const styles = theme => ({
   root: {
@@ -91,10 +92,20 @@ class PrimarySearchAppBar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
+    sidebarState: false
   };
 
-  openSidebar(){
-      alert("asas");
+  openSidebar() {
+    if (this.state.sidebarState === false) {
+      this.setState({
+        sidebarState: true
+      });
+    } else {
+      this.setState({
+        sidebarState: false
+      });
+    }
+    
   }
 
   handleProfileMenuOpen = event => {
@@ -170,8 +181,8 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-              <MenuIcon  onClick={()=> this.openSidebar()} />
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={() => this.openSidebar()}>
+              <MenuIcon  />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               Material-UI
@@ -218,7 +229,9 @@ class PrimarySearchAppBar extends React.Component {
         </AppBar>
         {renderMenu}
         {renderMobileMenu}
+        <Sidebar sidebarState={this.state.sidebarState} />
       </div>
+
     );
   }
 }

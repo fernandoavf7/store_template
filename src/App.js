@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import SwipeableTemporaryDrawer from './components/sidebar';
+
 import PrimarySearchAppBar from './components/appBar';
 
 class App extends Component {
@@ -9,7 +8,7 @@ class App extends Component {
     return (
       <div className="App">
       <PrimarySearchAppBar></PrimarySearchAppBar>
-       <SwipeableTemporaryDrawer></SwipeableTemporaryDrawer>
+      
       </div>
     );
   }
