@@ -92,29 +92,20 @@ class PrimarySearchAppBar extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null,
-    sidebarState: false
-  };
-
-  openSidebar() {
-    if (this.state.sidebarState === false) {
-      this.setState({
-        sidebarState: true
-      });
-    } else {
-      this.setState({
-        sidebarState: false
-      });
-    }
-    
-  }
-
-  handleProfileMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    sidebarState: true
   };
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ 
+      anchorEl: null
+    });
     this.handleMobileMenuClose();
+  };
+
+  handleProfileMenuOpen = event => {
+    this.setState({ 
+      anchorEl: event.currentTarget
+     });
   };
 
   handleMobileMenuOpen = event => {
@@ -124,6 +115,14 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+
+
+  openMenu = () => {
+    this.setState({ 
+      sidebarState: true
+     });
+     //console.log("openMenu");
+  }
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -138,9 +137,9 @@ class PrimarySearchAppBar extends React.Component {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMenuOpen}
         onClose={this.handleMenuClose}
+        onClick={this.openMenu}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+
       </Menu>
     );
 
@@ -155,25 +154,14 @@ class PrimarySearchAppBar extends React.Component {
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
-              <MailIcon />
+             
             </Badge>
           </IconButton>
-          <p>Messages</p>
+          
+          
         </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
+
+    
       </Menu>
     );
 
@@ -181,7 +169,7 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={() => this.openSidebar()}>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={this.openMenu}>
               <MenuIcon  />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
@@ -200,31 +188,8 @@ class PrimarySearchAppBar extends React.Component {
               />
             </div>
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
-              </IconButton>
-            </div>
+    
+          
           </Toolbar>
         </AppBar>
         {renderMenu}

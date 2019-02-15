@@ -33,17 +33,17 @@ class Sidebar extends React.Component {
     });
   };
 
-  openSidebar(){
+  openSidebar(state){
     this.setState({
-      'left': true,
+      'left': state,
     });
+    //console.log(state);
   }
 
   componentWillReceiveProps(){
-    this.openSidebar();
+    this.openSidebar(this.props.sidebarState);
   }
 
- 
   render() {
     const { classes } = this.props;
 
