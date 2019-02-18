@@ -130,3 +130,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const FilterModalContainer = connect(mapStateToProps, mapDispatchToProps)(FilterModal)
 export default FilterModalContainer;
+
+

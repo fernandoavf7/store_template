@@ -197,7 +197,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     showSidebar: function (sidebar) {
-      dispatch({ type: "SIDEBAR_STATE", sidebar });
+      dispatch({ type: SIDEBAR_STATE, sidebar });
     }
   }
 }

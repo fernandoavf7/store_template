@@ -22,10 +22,11 @@ class App extends Component {
 
       <br></br>
         <div className="container">
+    
           <div className="form-group row">
             {list.map((item, index) => (<StoreItem key={index} itemImage={item.itemImage} itemValue={item.itemValue} itemName={item.itemName} />))}
           </div>
-
+         
         </div>
 
      

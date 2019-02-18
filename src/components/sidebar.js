@@ -12,6 +12,7 @@ import { FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
 import ModalFilter from './modal_filter';
 import { connect } from 'react-redux'
 import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
+import ResponsiveDialog from './modal_filter_full';
 
 const styles = {
   list: {
@@ -56,20 +57,20 @@ class Sidebar extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-        
-            <ListItem button onClick={() => { this.props.showModal(true) }}>
-              <ListItemIcon>
-                <FaFilter  />
-              </ListItemIcon>
-              <ListItemText primary={"Filter"}/>
-            </ListItem>
 
-            <ListItem button>
-              <ListItemIcon>
-                <FaStar />
-              </ListItemIcon>
-              <ListItemText primary={"Favourites"}/>
-            </ListItem>
+          <ListItem button onClick={() => { this.props.showModal(true) }}>
+            <ListItemIcon>
+              <FaFilter />
+            </ListItemIcon>
+            <ListItemText primary={"Filter"} />
+          </ListItem>
+
+          <ListItem button>
+            <ListItemIcon>
+              <FaStar />
+            </ListItemIcon>
+            <ListItemText primary={"Favourites"} />
+          </ListItem>
         </List>
         <Divider />
         <List>
@@ -100,7 +101,9 @@ class Sidebar extends React.Component {
             {sideList}
           </div>
         </SwipeableDrawer>
-        <ModalFilter />
+
+        <ResponsiveDialog></ResponsiveDialog>
+        <ModalFilter></ModalFilter>
       </div>
     );
   }
@@ -121,10 +124,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     showModal: function (modal) {
-      dispatch({ type: "MODAL_FILTER_STATE", modal });
+      dispatch({ type: MODAL_FILTER_STATE, modal });
     },
     showSidebar: function (sidebar) {
-      dispatch({ type: "SIDEBAR_STATE", sidebar });
+      dispatch({ type: SIDEBAR_STATE, sidebar });
     }
   }
 }
