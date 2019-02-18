@@ -48,7 +48,7 @@ class Sidebar extends React.Component {
     this.openSidebar(nextProps.module_sidebar);
   }
 
- 
+
   render() {
     const { classes } = this.props;
 
@@ -56,12 +56,20 @@ class Sidebar extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          {['Filter', 'Favourites'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <FaFilter onClick={() => {this.props.showModal(true)}} /> : <FaStar />}</ListItemIcon>
-              <ListItemText primary={text}  />
+        
+            <ListItem button onClick={() => { this.props.showModal(true) }}>
+              <ListItemIcon>
+                <FaFilter  />
+              </ListItemIcon>
+              <ListItemText primary={"Filter"}/>
             </ListItem>
-          ))}
+
+            <ListItem button>
+              <ListItemIcon>
+                <FaStar />
+              </ListItemIcon>
+              <ListItemText primary={"Favourites"}/>
+            </ListItem>
         </List>
         <Divider />
         <List>
@@ -104,8 +112,10 @@ Sidebar.propTypes = {
 
 
 const mapStateToProps = (state, ownProps) => {
-  return { module_modal: state.module_modal,
-    module_sidebar: state.module_sidebar }
+  return {
+    module_modal: state.module_modal,
+    module_sidebar: state.module_sidebar
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
