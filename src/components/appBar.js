@@ -17,6 +17,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Sidebar from './sidebar';
+import { connect } from 'react-redux'
+import { SIDEBAR_STATE } from '../constants/constants_reducer';
 
 const styles = theme => ({
   root: {
@@ -88,41 +90,30 @@ const styles = theme => ({
   },
 });
 
-class PrimarySearchAppBar extends React.Component {
+class SearchAppBar extends React.Component {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null,
-    sidebarState: true
+    mobileMoreAnchorEl: null
   };
 
   handleMenuClose = () => {
-    this.setState({ 
+    this.setState({
       anchorEl: null
     });
     this.handleMobileMenuClose();
+    this.props.showSidebar(false);
   };
 
-  handleProfileMenuOpen = event => {
-    this.setState({ 
-      anchorEl: event.currentTarget
-     });
-  };
 
   handleMobileMenuOpen = event => {
     this.setState({ mobileMoreAnchorEl: event.currentTarget });
+    this.props.showSidebar(true);
   };
 
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
+    this.props.showSidebar(false);
   };
-
-
-  openMenu = () => {
-    this.setState({ 
-      sidebarState: true
-     });
-     //console.log("openMenu");
-  }
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -139,7 +130,6 @@ class PrimarySearchAppBar extends React.Component {
         onClose={this.handleMenuClose}
         onClick={this.openMenu}
       >
-
       </Menu>
     );
 
@@ -154,14 +144,9 @@ class PrimarySearchAppBar extends React.Component {
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
-             
             </Badge>
           </IconButton>
-          
-          
         </MenuItem>
-
-    
       </Menu>
     );
 
@@ -169,8 +154,8 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={this.openMenu}>
-              <MenuIcon  />
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer" onClick={()=>  this.props.showSidebar(true)}>
+              <MenuIcon />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               Material-UI
@@ -188,8 +173,8 @@ class PrimarySearchAppBar extends React.Component {
               />
             </div>
             <div className={classes.grow} />
-    
-          
+
+
           </Toolbar>
         </AppBar>
         {renderMenu}
@@ -201,8 +186,21 @@ class PrimarySearchAppBar extends React.Component {
   }
 }
 
-PrimarySearchAppBar.propTypes = {
+SearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
+const mapStateToProps = (state, ownProps) => {
+  return { module_sidebar: state.module_sidebar }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    showSidebar: function (sidebar) {
+      dispatch({ type: "SIDEBAR_STATE", sidebar });
+    }
+  }
+}
+
+const SearchAppBarContainer = connect(mapStateToProps, mapDispatchToProps)(SearchAppBar)
+export default withStyles(styles)(SearchAppBarContainer);

@@ -8,8 +8,10 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
+import ModalFilter from './modal_filter';
+import { connect } from 'react-redux'
+import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
 
 const styles = {
   list: {
@@ -21,7 +23,7 @@ const styles = {
 };
 
 class Sidebar extends React.Component {
-  
+
   state = {
     left: false
   };
@@ -31,64 +33,66 @@ class Sidebar extends React.Component {
     this.setState({
       [side]: open,
     });
+    this.props.showSidebar(open);
   };
 
-  openSidebar(state){
+  openSidebar(state) {
     this.setState({
       'left': state,
     });
-    //console.log(state);
+    this.props.showSidebar(state);
   }
 
-  componentWillReceiveProps(){
-    this.openSidebar(this.props.sidebarState);
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps");
+    this.openSidebar(nextProps.module_sidebar);
   }
 
+ 
   render() {
     const { classes } = this.props;
+
 
     const sideList = (
       <div className={classes.list}>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Filter', 'Favourites'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemIcon>{index % 2 === 0 ? <FaFilter onClick={() => {this.props.showModal(true)}} /> : <FaStar />}</ListItemIcon>
+              <ListItemText primary={text}  />
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['My Profile', 'Log Out'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <FaUserCircle /> : <FaSignOutAlt />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
+
       </div>
     );
 
- 
 
     return (
       <div>
-       
+
         <SwipeableDrawer
           open={this.state.left}
           onClose={this.toggleDrawer('left', false)}
-          onOpen={this.toggleDrawer('left', true)}
-        >
+          onOpen={this.toggleDrawer('left', true)}>
           <div
             tabIndex={0}
             role="button"
             onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
+            onKeyDown={this.toggleDrawer('left', false)}>
             {sideList}
           </div>
         </SwipeableDrawer>
- 
+        <ModalFilter />
       </div>
     );
   }
@@ -98,4 +102,22 @@ Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Sidebar);
+
+const mapStateToProps = (state, ownProps) => {
+  return { module_modal: state.module_modal,
+    module_sidebar: state.module_sidebar }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    showModal: function (modal) {
+      dispatch({ type: "MODAL_FILTER_STATE", modal });
+    },
+    showSidebar: function (sidebar) {
+      dispatch({ type: "SIDEBAR_STATE", sidebar });
+    }
+  }
+}
+
+const SidebarContainer = connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default withStyles(styles)(SidebarContainer);

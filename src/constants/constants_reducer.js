@@ -1,0 +1,3 @@
+export const SIDEBAR_STATE = "SIDEBAR_STATE";
+export const SIDEBAR_MENU = "SIDEBAR_MENU";
+export const MODAL_FILTER_STATE = "MODAL_FILTER_STATE";
