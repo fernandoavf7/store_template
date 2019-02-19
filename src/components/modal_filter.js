@@ -10,6 +10,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import {MODAL_FILTER_STATE} from './../constants/constants_reducer';
+import RangeSlider from './range_slider';
+import MultipleSelect from './multiple_select';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 
 const DialogTitle = withStyles(theme => ({
   root: {
@@ -52,6 +55,19 @@ const DialogActions = withStyles(theme => ({
   },
 }))(MuiDialogActions);
 
+const options = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder',
+];
+
 class FilterModal extends React.Component {
   state = {
     open: false,
@@ -77,6 +93,11 @@ class FilterModal extends React.Component {
   }
 
   render() {
+ 
+    const marks = {};
+    //mutando el objecto
+    marks[0] = '$ 0';
+    marks[100000] = '$ 100.000';
     return (
       <div>
 
@@ -89,20 +110,26 @@ class FilterModal extends React.Component {
             Modal title
           </DialogTitle>
           <DialogContent>
-            <Typography gutterBottom>
-              Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-              facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum
-              at eros.
-            </Typography>
-            <Typography gutterBottom>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-              lacus vel augue laoreet rutrum faucibus dolor auctor.
-            </Typography>
-            <Typography gutterBottom>
-              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-              scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-              auctor fringilla.
-            </Typography>
+          <div className="col-xs-12">
+                <div className="form-group row">
+                  <div className="col-xs-3">
+                    <select className="form-control">
+                      <option value="0">Order by price</option>
+                      <option value="1">Order by Alphabet</option>
+                    </select>
+                  </div>
+
+                  <div className="col-xs-2">
+                    <button className="btn btn-primary" onClick={this.sortType}>Order {this.state.sort === 0 ? <FaSortAmountDown /> : <FaSortAmountUp />} </button>
+                  </div>
+                </div>
+
+                <br></br>
+                <RangeSlider marks={marks} title={"Price Range:"} minValue={0} maxValue={100000} step={10000} />
+                <br></br>
+                <MultipleSelect title={"Nombres"} options={options} />
+                <br></br>
+              </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
@@ -123,7 +150,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     showModal: function (modal) {
-      dispatch({ type: "MODAL_FILTER_STATE", modal });
+      dispatch({ type: MODAL_FILTER_STATE, modal });
     }
   }
 }

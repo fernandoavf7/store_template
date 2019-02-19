@@ -10,7 +10,9 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 import RangeSlider from './range_slider';
 import MultipleSelect from './multiple_select';
 import RadioButton from './radio_button';
-import { FaSortDown, FaSortUp } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
+import { MODAL_FILTER_STATE } from '../constants/constants_reducer';
+import { connect } from 'react-redux';
 
 //import './../App.css';
 
@@ -28,16 +30,16 @@ const options = [
   'Kelly Snyder',
 ];
 
-class ResponsiveDialog extends React.Component {
-  
-  constructor(){
+class ModalFilterFull extends React.Component {
+
+  constructor() {
     super();
-     this.state = {
-    open: true,
-    sort: 0
-  };
+    this.state = {
+      open: false,
+      sort: 0
+    };
   }
- 
+
 
 
   handleChange = event => {
@@ -49,22 +51,36 @@ class ResponsiveDialog extends React.Component {
     this.setState({ open: true });
   };
 
+
   handleClose = () => {
     this.setState({ open: false });
+    this.props.showModal(false);
   };
 
-  sortType= ()=>{
-    this.state.sort === 0?  this.setState({sort: 1}):  this.setState({sort: 0});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.module_modal) {
+      this.handleClickOpen();
+    } else {
+      this.handleClose();
+    }
   }
+
+
+  sortType = () => {
+    this.state.sort === 0 ? this.setState({ sort: 1 }) : this.setState({ sort: 0 });
+  }
+
 
   render() {
     const { fullScreen } = this.props;
 
+    const marks = {};
+    //mutando el objecto
+    marks[0] = '$ 0';
+    marks[100000] = '$ 100.000';
+
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Open responsive dialog
-        </Button>
         <Dialog
           fullScreen={fullScreen}
           open={this.state.open}
@@ -75,16 +91,26 @@ class ResponsiveDialog extends React.Component {
           <DialogContent>
             <DialogContentText>
 
+              <div className="col-xs-12">
+                <div className="form-group row">
+                  <div className="col-xs-3">
+                    <select className="form-control">
+                      <option value="0">Order by price</option>
+                      <option value="1">Order by Alphabet</option>
+                    </select>
+                  </div>
 
-              <div className="col-xs-2">
-                <button className="btn btn-primary" onClick={this.sortType}>Order { this.state.sort === 0? <FaSortDown/>: <FaSortUp/>} </button>
+                  <div className="col-xs-3">
+                    <button className="btn btn-primary" onClick={this.sortType}>Order {this.state.sort === 0 ? <FaSortAmountDown /> : <FaSortAmountUp />} </button>
+                  </div>
+                </div>
+
+                <br></br>
+                <RangeSlider marks={marks} title={"Price Range:"} minValue={0} maxValue={100000} step={10000} />
+                <br></br>
+                <MultipleSelect title={"Nombres"} options={options} />
+                <br></br>
               </div>
-              <br></br>
-              <RangeSlider title={"Price Range:"} minValue={0} maxValue={100000} step={10000} />
-              <br></br>
-              <MultipleSelect title={"Nombres"} options={options} />
-              <br></br>
-
 
             </DialogContentText>
           </DialogContent>
@@ -102,8 +128,23 @@ class ResponsiveDialog extends React.Component {
   }
 }
 
-ResponsiveDialog.propTypes = {
+ModalFilterFull.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-export default withMobileDialog()(ResponsiveDialog);
+
+const mapStateToProps = (state, ownProps) => {
+  return { module_modal: state.module_modal }
+}
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    showModal: function (modal) {
+      dispatch({ type: MODAL_FILTER_STATE, modal });
+    }
+  }
+}
+
+const FilterModalFullContainer = connect(mapStateToProps, mapDispatchToProps)(ModalFilterFull)
+export default withMobileDialog()(FilterModalFullContainer);

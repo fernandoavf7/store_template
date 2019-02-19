@@ -12,7 +12,7 @@ import { FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
 import ModalFilter from './modal_filter';
 import { connect } from 'react-redux'
 import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
-import ResponsiveDialog from './modal_filter_full';
+import ModalFilterFull from './modal_filter_full';
 
 const styles = {
   list: {
@@ -102,8 +102,7 @@ class Sidebar extends React.Component {
           </div>
         </SwipeableDrawer>
 
-        <ResponsiveDialog></ResponsiveDialog>
-        <ModalFilter></ModalFilter>
+        <ModalFilterFull/>
       </div>
     );
   }

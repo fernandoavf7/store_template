@@ -4,6 +4,7 @@ import 'rc-slider/assets/index.css';
 //import 'rc-tooltip/assets/bootstrap.css';
 import Tooltip from 'rc-tooltip';
 import Slider from 'rc-slider';
+import CurrencyFormat from 'react-currency-format';
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -24,31 +25,41 @@ const handle = (props) => {
   );
 };
 
-
-const wrapperStyle = { margin: 50 };
-
 class RangeSlider extends Component {
 
-  onSliderChange(e) {
-    console.log(e);
+  constructor() {
+    super();
+    this.state = {
+      current: [0,0]
+    }
   }
 
+  onSliderChange = (e) => {
+    console.log(e);
+    this.setState({
+      current: e
+    });
+  }
+
+  formatCurrency(val){
+    return <CurrencyFormat value={val} displayType={'text'} thousandSeparator={true} prefix={'$'} />;
+  }
+
+  componentDidMount(){
+    this.setState({
+      current: [this.props.minValue, this.props.maxValue]
+    });
+  }
 
   render() {
 
-    const { title, minValue, maxValue, step } = this.props;
-
-    let marks = {
-      0: '0%',
-      50000: '50%',
-      100000: '100%'
-    };
+    const { marks, title, minValue, maxValue, step } = this.props;
 
     console.log(marks);
     return (
       <div>
-        <label>{title}</label>
-        <Range marks={marks} onChange={this.sliderValue} step={step} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]} tipFormatter={value => `${value}%`} />
+        <label>{title} {this.formatCurrency(this.state.current[0])} - {this.formatCurrency(this.state.current[1])}</label>
+        <Range marks={marks} onChange={this.onSliderChange} step={step} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]}  />
       </div>
     );
   }
