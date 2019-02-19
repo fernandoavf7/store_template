@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button } from '@material-ui/core';
-
+import './../App.css';
 
 class StoreItem extends Component {
+    state = {
+        open: true,
+      };
     render() {
         const name = this.props.itemName;
         const image = this.props.itemImage;
@@ -19,6 +21,10 @@ class StoreItem extends Component {
                         <li className="list-group-item"><b>Price: </b>{value}</li>
                     </ul>
                 </div>
+
+            
+
+
             </div>
 
         );

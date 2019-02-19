@@ -3,7 +3,7 @@ import './App.css';
 import AppBar from './components/appbar';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import StoreItem from './../src/components/store_item';
-
+import StoreItemDetail from './../src/components/store_item_detail';
 
 const list = [
   { itemName: "Shampoo", itemImage: "https://farmacityar.vteximg.com.br/arquivos/ids/157842-1000-1000/161080_shampoo-arcilla-extraordinaria-x-400-ml_imagen-1.jpg?v=636670310283370000", itemValue: "$ 4.500" },
