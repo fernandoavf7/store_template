@@ -10,7 +10,7 @@ class StoreItem extends Component {
         return (
             <div className="col-xs-12 col-sm-4 col-md-2" style={{marginTop:'10px'}}>        
                 <div className="card">
-                    <img src={image} className="card-img-top img-fluid" alt="..." height='200px' />
+                    <img style={{cursor:'pointer'}} src={image} className="card-img-top img-fluid" alt="..." height='200px' />
                     <div className="card-body">
                         <h5 className="card-title">{name}</h5>
                     </div>

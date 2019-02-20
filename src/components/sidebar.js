@@ -13,6 +13,7 @@ import ModalFilter from './modal_filter';
 import { connect } from 'react-redux'
 import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
 import ModalFilterFull from './modal_filter_full';
+import { Link } from 'react-router-dom';
 
 const styles = {
   list: {
@@ -24,6 +25,16 @@ const styles = {
 };
 
 class Sidebar extends React.Component {
+  /*
+    constructor(props) {
+      super(props);
+      this.state = {
+        left: false,
+        currentUrl: ""
+      };
+    }
+  */
+
 
   state = {
     left: false
@@ -45,44 +56,69 @@ class Sidebar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps");
+    //console.log("componentWillReceiveProps");
     this.openSidebar(nextProps.module_sidebar);
   }
 
+  logOut() {
+    console.log("loggin out");
+    //this.setCurrentUrl();
+  }
+
+  /*
+  setCurrentUrl = () => {
+    this.setState({
+      currentUrl: this.props.location
+    });
+    console.log(this.state.currentUrl)
+  }*/
 
   render() {
     const { classes } = this.props;
-
 
     const sideList = (
       <div className={classes.list}>
         <List>
 
           <ListItem button onClick={() => { this.props.showModal(true) }}>
+
             <ListItemIcon>
               <FaFilter />
             </ListItemIcon>
-            <ListItemText primary={"Filter"} />
+            <Link to=""><ListItemText primary={"Filter"} /></Link>
           </ListItem>
 
           <ListItem button>
             <ListItemIcon>
               <FaStar />
             </ListItemIcon>
-            <ListItemText primary={"Favourites"} />
+            <Link to="/favourites"><ListItemText primary={"Favourites"} /></Link>
           </ListItem>
-        </List>
-        <Divider />
-        <List>
-          {['My Profile', 'Log Out'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <FaUserCircle /> : <FaSignOutAlt />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+
         </List>
 
-      </div>
+        <Divider />
+
+        <List>
+
+          <ListItem button>
+            <ListItemIcon>
+              <FaUserCircle />
+            </ListItemIcon>
+            <Link to="/profile"><ListItemText primary={"Profile"} /></Link>
+          </ListItem>
+
+          <ListItem button>
+            <ListItemIcon>
+              <FaSignOutAlt />
+            </ListItemIcon>
+            <Link to=""><ListItemText primary={"Log Out"} button onClick={this.logOut} /></Link>
+          </ListItem>
+
+
+        </List>
+
+      </div >
     );
 
 
@@ -102,7 +138,7 @@ class Sidebar extends React.Component {
           </div>
         </SwipeableDrawer>
 
-        <ModalFilterFull/>
+        <ModalFilterFull />
       </div>
     );
   }

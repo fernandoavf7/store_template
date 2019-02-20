@@ -22,7 +22,7 @@ class StoreItem extends Component {
                     </ul>
                 </div>
 
-            
+            DETAILS
 
 
             </div>
