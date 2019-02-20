@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
+import {FaHome, FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
 import ModalFilter from './modal_filter';
 import { connect } from 'react-redux'
 import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
@@ -79,6 +79,13 @@ class Sidebar extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
+
+          <ListItem button>
+            <ListItemIcon>
+              <FaHome />
+            </ListItemIcon>
+            <Link to="/"><ListItemText primary={"Home"} /></Link>
+          </ListItem>
 
           <ListItem button onClick={() => { this.props.showModal(true) }}>
 

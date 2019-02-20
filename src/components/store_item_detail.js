@@ -1,34 +1,46 @@
 import React, { Component } from 'react';
 import './../App.css';
+import { getCurrentUrl } from './../services/url_location';
+import { list_detail } from './../constants/json';
 
-class StoreItem extends Component {
-    state = {
-        open: true,
-      };
+let storeItem;
+class StoreItemDetail extends Component {
+
+    constructor() {
+        super();
+        let url = getCurrentUrl();
+        let itemId = url.split('/')[2];
+
+
+        list_detail.forEach(function (item) {
+            if (item.itemId == itemId) {
+                storeItem = item;
+                 return;
+            }
+        });
+        console.log(storeItem);
+    }
+
+    componentDidMount() {
+
+    }
+
     render() {
-        const name = this.props.itemName;
-        const image = this.props.itemImage;
-        const value = this.props.itemValue;
         //const 
         return (
-            <div className="col-xs-12 col-sm-4 col-md-2" style={{marginTop:'10px'}}>        
+            <div className="col-xs-12 col-sm-4 col-md-2" style={{ marginTop: '10px' }}>
                 <div className="card">
-                    <img src={image} className="card-img-top img-fluid" alt="..." height='200px' />
+                    <img src={storeItem.itemImage} className="card-img-top img-fluid" alt="..." height='200px' />
                     <div className="card-body">
-                        <h5 className="card-title">{name}</h5>
+                        <h5 className="card-title">{storeItem.itemName}</h5>
                     </div>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item"><b>Price: </b>{value}</li>
-                    </ul>
+                    <div className="card-footer text-muted">{storeItem.itemDescription}</div>
+
                 </div>
-
-            DETAILS
-
-
             </div>
 
         );
     }
 }
 
-export default StoreItem;
+export default StoreItemDetail;

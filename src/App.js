@@ -6,14 +6,14 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import StoreItemDetail from './../src/components/store_item_detail';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home';
-import Favourites from './components/favourites';
 import Profile from './components/profile';
+import {list, list_favourites} from './constants/json';
 
 
 class App extends Component {
-  renderHome = () => <Home />;
+  renderHome = () => <Home list={list}/>;
   renderStoreItemDetail = () => <StoreItemDetail />;
-  renderFavourites = () => <Favourites />;
+  renderFavourites = () => <Home list={list_favourites} />;
   renderProfile = () => <Profile />;
 
   render() {

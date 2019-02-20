@@ -8,7 +8,7 @@ class StoreItem extends Component {
         const image = this.props.itemImage;
         const value = this.props.itemValue;
         return (
-            <div className="col-xs-12 col-sm-4 col-md-2" style={{marginTop:'10px'}}>        
+            <div className="col-xs-12 col-md-4" style={{marginTop:'10px'}}>        
                 <div className="card">
                     <img style={{cursor:'pointer'}} src={image} className="card-img-top img-fluid" alt="..." height='200px' />
                     <div className="card-body">
