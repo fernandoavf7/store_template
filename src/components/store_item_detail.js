@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
 import './../App.css';
 import { getCurrentUrl } from './../services/url_location';
-import { list_detail } from './../constants/json';
 import CurrencyFormat from 'react-currency-format';
+import { connect } from 'react-redux';
+import GetProducts from './../services/get_products';
+import { CircularProgress } from '@material-ui/core';
 
-let storeItem;
+
 class StoreItemDetail extends Component {
 
-    constructor() {
-        super();
-        let url = getCurrentUrl();
-        let itemId = url.split('/')[2];
-
-
-        list_detail.forEach(function (item) {
-            if (item.itemId == itemId) {
-                storeItem = item;
-                return;
-            }
-        });
-        console.log(storeItem);
+    constructor(props) {
+        super(props);
+        this.state = {
+            product: { id_product: 0, name: "none", value: 0, image: "", description: "lorem ipsum" }
+        };
+       console.log("constructor");
     }
 
-    componentDidMount() {
+    componentDidMount(){
+        console.log("componentDidMount");
+        console.log(this.props.module_products);
+  
       
     }
 
@@ -30,29 +28,47 @@ class StoreItemDetail extends Component {
         window.open('http://' + url);
     }
 
+    componentWillReceiveProps(nextprops){
+        console.log("componentWillReceiveProps");
+        console.log(nextprops);
+        let url = getCurrentUrl();
+        let itemId = url.split('/')[2];
+
+        let products = [];
+        products = this.props.module_products;
+        if(products != null)
+        products.forEach(function (item) {
+            //just use ==, === doesnt work
+            if (item.id_product == itemId) {
+                this.setState({
+                    product: item
+                });
+                return;
+            }
+        });
+        console.log(this.state.product);
+    }
 
     render() {
         //const 
+        console.log("render");
+        let product = this.state.product;
         return (
+
             <div className="col-xs-12 col-sm-4 col-md-2" style={{ marginTop: '10px' }}>
                 <div className="card">
-                    <img src={storeItem.itemImage} className="card-img-top img-fluid" alt="..." height='200px' />
-                    <div className="card-body">
-                        <h5 className="card-title">{storeItem.itemName}</h5>
-                    </div>
-                    <div className="card-footer text-muted">{storeItem.itemDescription}</div>
-                    {storeItem.stores.map(store => {
-                        return (
-                        
-                       <div style={{cursor:'pointer'}} className="card-footer" onClick={() => this.openUrl(store.url)}>{store.name}
-                        <div style={{ float: 'right' }}>
-                            <CurrencyFormat displayType={'text'} thousandSeparator={true} prefix={'$'} value={store.value} />
-                        </div>
-                       </div>
-                       )
 
-                    }
-                    )}
+                    <img src={product.image} className="card-img-top img-fluid" alt="..." height='200px' />
+                    <div className="card-body">
+                        <h5 className="card-title">{product.name}</h5>
+                    </div>
+                    <div className="card-footer text-muted">{product.description}</div>
+                    <div style={{ cursor: 'pointer' }} className="card-footer" onClick={() => this.openUrl(product.url)}>{product.name}
+                        <div style={{ float: 'right' }}>
+                            <CurrencyFormat displayType={'text'} thousandSeparator={true} prefix={'$'} value={product.value} />
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -60,4 +76,15 @@ class StoreItemDetail extends Component {
     }
 }
 
-export default StoreItemDetail;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        module_products: state.module_products
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {}
+}
+
+const StoreItemDetailContainer = connect(mapStateToProps, mapDispatchToProps)(StoreItemDetail)
+export default (StoreItemDetailContainer);

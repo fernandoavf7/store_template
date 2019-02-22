@@ -12,7 +12,7 @@ class GetStores extends Component {
         this.state = {
             stores: []
         };
-
+        //this.getStores();
     }
 
     componentDidMount() {
@@ -35,7 +35,7 @@ class GetStores extends Component {
         });
     }
 
-  /*  render() {
+    render() {
         let stores = this.state.stores;
         return (
             <div>
@@ -43,7 +43,7 @@ class GetStores extends Component {
                 {stores.length === 0 ? <CircularProgress size={50} /> : stores.map(store => (<h4 key={store.id_store}>{store.name}</h4>))}
             </div>
         );
-    }*/
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
