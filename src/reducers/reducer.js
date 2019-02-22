@@ -20,8 +20,18 @@ const sidebar_function = (state = false, action) => {
     }
 }
 
+const stores_function = (state = [], action) => {
+    switch (action.type) {
+        case SIDEBAR_STATE:
+            return action.args;
+        default:
+            return state;
+    }
+}
+
 // main reducers
 export const reducers = combineReducers({
     module_modal: modal_function,
-    module_sidebar: sidebar_function
+    module_sidebar: sidebar_function,
+    module_stores: stores_function
 });

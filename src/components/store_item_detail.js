@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './../App.css';
 import { getCurrentUrl } from './../services/url_location';
 import { list_detail } from './../constants/json';
+import CurrencyFormat from 'react-currency-format';
 
 let storeItem;
 class StoreItemDetail extends Component {
@@ -15,15 +16,20 @@ class StoreItemDetail extends Component {
         list_detail.forEach(function (item) {
             if (item.itemId == itemId) {
                 storeItem = item;
-                 return;
+                return;
             }
         });
         console.log(storeItem);
     }
 
     componentDidMount() {
-
+      
     }
+
+    openUrl(url) {
+        window.open('http://' + url);
+    }
+
 
     render() {
         //const 
@@ -35,7 +41,18 @@ class StoreItemDetail extends Component {
                         <h5 className="card-title">{storeItem.itemName}</h5>
                     </div>
                     <div className="card-footer text-muted">{storeItem.itemDescription}</div>
+                    {storeItem.stores.map(store => {
+                        return (
+                        
+                       <div style={{cursor:'pointer'}} className="card-footer" onClick={() => this.openUrl(store.url)}>{store.name}
+                        <div style={{ float: 'right' }}>
+                            <CurrencyFormat displayType={'text'} thousandSeparator={true} prefix={'$'} value={store.value} />
+                        </div>
+                       </div>
+                       )
 
+                    }
+                    )}
                 </div>
             </div>
 

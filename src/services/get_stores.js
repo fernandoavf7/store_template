@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import { STORES_LIST } from '../constants/constants_reducer';
 
-class Profile extends Component {
+
+class GetStores extends Component {
 
     constructor(props) {
         super(props);
@@ -28,11 +31,11 @@ class Profile extends Component {
             this.setState({
                 stores: data
             });
-            //console.log(this.state.stores);
+            this.props.saveStores(data);
         });
     }
 
-    render() {
+  /*  render() {
         let stores = this.state.stores;
         return (
             <div>
@@ -40,7 +43,22 @@ class Profile extends Component {
                 {stores.length === 0 ? <CircularProgress size={50} /> : stores.map(store => (<h4 key={store.id_store}>{store.name}</h4>))}
             </div>
         );
-    }
+    }*/
 }
 
-export default Profile;
+const mapStateToProps = (state, ownProps) => {
+    return {
+      module_stores: state.module_stores
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      saveStores: function (args) {
+        dispatch({ type: STORES_LIST, args });
+      }
+    }
+  }
+  
+  const GetStoresContainer = connect(mapStateToProps, mapDispatchToProps)(GetStores)
+  export default (GetStoresContainer);

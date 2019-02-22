@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {FaHome, FaSignOutAlt, FaUserCircle, FaStar, FaFilter } from 'react-icons/fa';
 import ModalFilter from './modal_filter';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { MODAL_FILTER_STATE, SIDEBAR_STATE } from '../constants/constants_reducer';
 import ModalFilterFull from './modal_filter_full';
 import { Link } from 'react-router-dom';
