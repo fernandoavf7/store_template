@@ -3,7 +3,11 @@ import StoreItem from './store_item';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import GetProducts from './../services/get_products';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Switch } from '@material-ui/core';
+import Switches from './switch';
+import Checkboxes from './checkboxes';
+
+
 
 class Home extends Component {
 
@@ -16,6 +20,9 @@ class Home extends Component {
                 <br></br>
                 <div className="container">
                     <div className="form-group row">
+                  
+                    <Checkboxes/>
+                    <Switches/>
 
                         {products.lenght !== 0 ? products.map(item => (
                             <Link key={item.id_product} to={`/store_item/${item.id_product}`}>

@@ -19,9 +19,7 @@ class StoreItemDetail extends Component {
 
     componentDidMount(){
         console.log("componentDidMount");
-        console.log(this.props.module_products);
-  
-      
+        console.log(this.props.module_products); 
     }
 
     openUrl(url) {
