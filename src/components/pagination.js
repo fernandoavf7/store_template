@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import {PAGINATION} from './../constants/constants_reducer';
 
 class Pagination extends Component {
     constructor(props) {
@@ -9,7 +11,7 @@ class Pagination extends Component {
             data: [],
             offset: 0,
             currentPage: 1,
-            lastPage: 5
+            lastPage: this.props.lastPage
         };
     }
 
@@ -18,11 +20,20 @@ class Pagination extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.module_pagination){
+            this.setState({
+                currentPage: nextProps.module_pagination
+            });
+        }
+    }
+
     nextPage() {
-        if (this.state.currentPage != this.state.lastPage) {
+        if (this.state.currentPage !== this.state.lastPage) {
             let next = parseInt(this.state.currentPage + 1);
             this.setState({ currentPage: next });
             console.log(this.state.currentPage);
+            this.props.saveCurrentPage(this.state.currentPage+1);
         }
 
     }
@@ -32,6 +43,7 @@ class Pagination extends Component {
             let back = parseInt(this.state.currentPage - 1);
             this.setState({ currentPage: back });
             console.log(this.state.currentPage);
+            this.props.saveCurrentPage(this.state.currentPage-1);
         }
 
     }
@@ -58,4 +70,19 @@ class Pagination extends Component {
     }
 }
 
-export default Pagination;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        module_pagination: state.module_pagination
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return { 
+        saveCurrentPage: function (args) {
+        dispatch({ type: PAGINATION, args });
+      }}
+}
+
+
+const PaginationContainer = connect(mapStateToProps, mapDispatchToProps)(Pagination)
+export default (PaginationContainer);

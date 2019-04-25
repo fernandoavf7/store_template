@@ -27,24 +27,31 @@ class Home extends Component {
     render() {
 
         let products = [];
-        products = this.props.module_products;
+        products = this.props.module_store;
         return (
             <div>
 
 
-                <Pagination />
+                <Pagination lastPage={10} />
                 <div className="container">
                     <div className="form-group row">
 
                         {products != null ? products.map(item => (
                             <Link key={item.id_product} to={`/store_item/${item.id_product}`}>
                                 <StoreItem key={item.id_product} itemImage={item.image} itemValue={item.value} itemName={item.name} />
-                            </Link>)) : <CircularProgress size={50} />
+                            </Link>)) :
+
+                            <Grid container spacing={8} justify="center" style={{ marginTop: '5px' }}>
+                                <Grid item>
+                                    <CircularProgress size={50} />
+                                </Grid>
+                            </Grid>
+
                         }
 
                     </div>
                 </div>
-
+                <Pagination lastPage={10} />
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { SIDEBAR_STATE, MODAL_FILTER_STATE, STORES_LIST, PRODUCTS_LIST } from './../constants/constants_reducer';
+import { SIDEBAR_STATE, MODAL_FILTER_STATE, STORES_LIST, PRODUCTS_LIST, PAGINATION} from './../constants/constants_reducer';
 
 
 const modal_function = (state = false, action) => {
@@ -38,10 +38,20 @@ const products_function = (state = [], action) => {
     }
 }
 
+const pagination_function = (state = [], action) => {
+    switch (action.type) {
+        case PAGINATION:
+            return action.args;
+        default:
+            return state;
+    }
+}
+
 // main reducers
 export const reducers = combineReducers({
     module_modal: modal_function,
     module_sidebar: sidebar_function,
     module_stores: stores_function,
-    module_products: products_function
+    module_products: products_function,
+    module_pagination: pagination_function
 });
