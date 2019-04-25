@@ -9,12 +9,20 @@ import Checkboxes from './checkboxes';
 import Pagination from './pagination';
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: [],
+            offset: 0,
+            currentPage: 1,
+            lastPage: 5
+        };
+    }
 
     componentDidMount() {
 
     }
-
-
 
     render() {
 
