@@ -7,6 +7,7 @@ import { CircularProgress, Switch, Button, FormControl, Grid } from '@material-u
 import Switches from './switch';
 import Checkboxes from './checkboxes';
 import Pagination from './pagination';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 
 class Home extends Component {
     constructor(props) {
@@ -16,7 +17,8 @@ class Home extends Component {
             data: [],
             offset: 0,
             currentPage: 1,
-            lastPage: 5
+            lastPage: 5,
+            icon: 0
         };
     }
 
@@ -24,12 +26,25 @@ class Home extends Component {
 
     }
 
+    changeIcon(icon) {
+        this.setState({
+            icon: icon
+        });
+    }
+
+
     render() {
 
         let products = [];
         products = this.props.module_store;
         return (
             <div>
+
+                {this.state.icon === 0 ?
+                    <button className="btn btn-primary" onClick={()=>this.changeIcon(1)}><FaSortAmountDown /></button>
+                    :
+                    <button className="btn btn-danger" onClick={()=>this.changeIcon(0)}><FaSortAmountDown /></button>
+                }
 
 
                 <Pagination lastPage={10} />
